@@ -57,7 +57,7 @@ Run the application and send request to the endpoints:
 			"password": "Admin@123"
 		}
 		
-	RESPONSE: Bearer Auth <token>
+	RESPONSE: Bearer Auth Token
 	
 3. send-notification:
 	URL: http://localhost:8081/admin/send-notification
