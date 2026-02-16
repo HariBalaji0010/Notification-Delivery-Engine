@@ -19,7 +19,7 @@ public class AdminAuthController {
 
     private final AdminRepository adminRepository;
     private final JwtUtil jwtUtil;
-    private final PasswordEncoder passwordEncoder; // ✅ ADD THIS
+    private final PasswordEncoder passwordEncoder; 
 
     @PostMapping("/login")
     public AuthResponseDTO login(@RequestBody AuthRequestDTO request) {
@@ -30,7 +30,7 @@ public class AdminAuthController {
                 .findByAdminUserName(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("Invalid username"));
 
-        // ✅ CORRECT BCrypt validation
+        
         if (!passwordEncoder.matches(request.getPassword(), admin.getAdminPassword())) {
             throw new RuntimeException("Invalid password");
         }
@@ -38,4 +38,5 @@ public class AdminAuthController {
         String token = jwtUtil.generateToken(admin.getAdminUserName());
         return new AuthResponseDTO(token);
     }
+
 }
