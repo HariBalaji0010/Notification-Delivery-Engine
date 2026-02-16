@@ -26,14 +26,12 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(auth -> auth
 
-                // ✅ PUBLIC ENDPOINTS (NO TOKEN)
                 .requestMatchers(
                     "/admin/auth/**",
                     "/admin/create-user",
                     "/error"
                 ).permitAll()
 
-                // 🔐 ALL OTHER ENDPOINTS NEED JWT
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -41,9 +39,9 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ✅ Password encoder (already correct)
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }
