@@ -33,7 +33,6 @@ public class AdminController {
         this.messageSource = messageSource;
     }
 
-    // ---------------- CREATE USER (NO AUTH) ----------------
     @PostMapping("/create-user")
     public NotificationResponseDTO createUser(@RequestBody UserDTO userDTO) {
 
@@ -56,7 +55,6 @@ public class AdminController {
                 Locale.ENGLISH
         );
 
-        // Get email/WhatsApp subject from messages.properties
         String subject = messageSource.getMessage(
                 "notification.user.account.subject",
                 null,
@@ -76,7 +74,6 @@ public class AdminController {
             );
         }
 
-        // Response message from messages.properties
         String responseMessage = messageSource.getMessage(
                 "response.user.created",
                 null,
@@ -89,7 +86,6 @@ public class AdminController {
         );
     }
 
-    // ---------------- SEND NOTIFICATION (AUTH REQUIRED) ----------------
     @PostMapping("/send-notification")
     public NotificationResponseDTO sendNotification(
             @RequestBody SendNotificationDTO requestDTO) {
@@ -103,7 +99,7 @@ public class AdminController {
         if (user.getUserChannelType() == ChannelType.EMAIL) {
             notificationId = notificationService.sendEmail(
                     user.getUserEmailId(),
-                    "Notification", // Can also be moved to messages.properties
+                    "Notification", 
                     requestDTO.getMessage()
             );
         } else {
@@ -125,17 +121,14 @@ public class AdminController {
         );
     }
 
-    // ---------------- SCHEDULE NOTIFICATION (AUTH REQUIRED) ----------------
     @PostMapping("/schd-notification")
     public NotificationResponseDTO scheduleNotification(
             @RequestBody ScheduledNotificationDTO dto) {
 
-        // Validate scheduled time
         if (dto.getScheduleTime() == null || dto.getScheduleTime().isBefore(LocalDateTime.now())) {
             throw new RuntimeException("Schedule time must be in the future");
         }
 
-        // Fetch user by username
         User user = userService.getUserByUsername(dto.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -157,11 +150,11 @@ public class AdminController {
         );
     }
 
-    // ---------------- GET NOTIFICATION STATUS (AUTH REQUIRED) ----------------
     @GetMapping("/status/{notificationId}")
     public NotificationStatusDTO getNotificationStatus(
             @PathVariable UUID notificationId) {
 
         return notificationService.getStatus(notificationId);
     }
+
 }
