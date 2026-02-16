@@ -15,9 +15,8 @@ public class JwtUtil {
     private String secret;
 
     @Value("${jwt.expiration}")
-    private long expiration; // milliseconds
+    private long expiration;
 
-    // ---------------- GENERATE TOKEN ----------------
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
@@ -27,17 +26,17 @@ public class JwtUtil {
                 .compact();
     }
 
-    // ---------------- EXTRACT USERNAME ----------------
+
     public String extractUsername(String token) {
         return extractAllClaims(token).getSubject();
     }
 
-    // ---------------- VALIDATE TOKEN ----------------
+    
     public boolean validateToken(String token) {
         return !isTokenExpired(token);
     }
 
-    // ---------------- HELPERS ----------------
+    
     private boolean isTokenExpired(String token) {
         return extractAllClaims(token)
                 .getExpiration()
@@ -50,4 +49,5 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
 }
