@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Data
 public class NotificationRequestDTO {
-    private String recipient;       // email or mobile number
-    private ChannelType channel;    // EMAIL or WHATSAPP
-    private String message;         // notification content
+    private String recipient;       
+    private ChannelType channel;    
+    private String message;         
+
 }
