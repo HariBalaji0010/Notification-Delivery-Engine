@@ -31,7 +31,7 @@ public class NotificationService {
     private final List<NotificationChannel> channels;
     private final TaskScheduler taskScheduler;
 
-    // ---------------- GENERIC SEND ----------------
+
     public UUID send(NotificationRequestDTO dto) {
 
         Notification notification = new Notification();
@@ -59,7 +59,7 @@ public class NotificationService {
         return notification.getId();
     }
 
-    // ---------------- EMAIL ----------------
+    
     public UUID sendEmail(String recipient, String subject, String message) {
         NotificationRequestDTO dto = new NotificationRequestDTO();
         dto.setRecipient(recipient);
@@ -68,7 +68,7 @@ public class NotificationService {
         return send(dto);
     }
 
-    // ---------------- WHATSAPP ----------------
+    
     public UUID sendWhatsapp(String mobileNumber, String message) {
         NotificationRequestDTO dto = new NotificationRequestDTO();
         dto.setRecipient(mobileNumber);
@@ -77,7 +77,7 @@ public class NotificationService {
         return send(dto);
     }
 
-    // ---------------- STATUS ----------------
+    
     public NotificationStatusDTO getStatus(UUID notificationId) {
         DeliveryHistory latest =
                 deliveryHistoryRepository.findByNotificationIdOrderByUpdatedAtDesc(notificationId)
@@ -88,7 +88,7 @@ public class NotificationService {
         return new NotificationStatusDTO(latest.getStatus(), latest.getUpdatedAt());
     }
 
-    // ---------------- HELPER ----------------
+    
     private void saveHistory(UUID notificationId, DeliveryStatus status, String remarks) {
         DeliveryHistory history = new DeliveryHistory();
         history.setNotificationId(notificationId);
@@ -105,12 +105,12 @@ public class NotificationService {
         });
     }
 
-    // ---------------- SCHEDULED NOTIFICATION ----------------
+    
     public UUID scheduleNotification(User user, String message, LocalDateTime scheduleTime) {
 
         UUID notificationId = UUID.randomUUID();
 
-        // Save notification as CREATED
+        
         Notification notification = new Notification();
         notification.setId(notificationId);
         notification.setRecipient(getRecipient(user));
@@ -122,7 +122,7 @@ public class NotificationService {
 
         saveHistory(notificationId, DeliveryStatus.CREATED, "Notification scheduled");
 
-        // Schedule sending task
+        
         Instant sendTime = scheduleTime.atZone(ZoneId.systemDefault()).toInstant();
         taskScheduler.schedule(() -> sendScheduledNotification(notification, user, message), sendTime);
 
@@ -153,10 +153,11 @@ public class NotificationService {
         }
     }
 
-    // ---------------- HELPER ----------------
+    
     private String getRecipient(User user) {
         return user.getUserChannelType() == ChannelType.EMAIL
                 ? user.getUserEmailId()
                 : user.getUserMobileNumber();
     }
+
 }
