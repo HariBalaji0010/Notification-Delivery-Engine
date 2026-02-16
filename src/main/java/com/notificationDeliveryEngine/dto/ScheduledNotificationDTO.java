@@ -8,7 +8,7 @@ public class ScheduledNotificationDTO {
     private String message;
     private LocalDateTime scheduleTime;
 
-    // ---------------- Getters & Setters ----------------
+    
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
 
@@ -18,7 +18,7 @@ public class ScheduledNotificationDTO {
     public LocalDateTime getScheduleTime() { return scheduleTime; }
     public void setScheduleTime(LocalDateTime scheduleTime) { this.scheduleTime = scheduleTime; }
 
-    // ---------------- Optional: toString() for logging ----------------
+    
     @Override
     public String toString() {
         return "ScheduledNotificationDTO{" +
@@ -27,4 +27,5 @@ public class ScheduledNotificationDTO {
                 ", scheduleTime=" + scheduleTime +
                 '}';
     }
+
 }
