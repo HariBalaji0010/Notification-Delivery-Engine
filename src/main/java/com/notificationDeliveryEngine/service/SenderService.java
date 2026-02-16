@@ -31,7 +31,7 @@ public class SenderService {
     @Value("${spring.mail.username}")
     private String fromEmail;
 
-    // ---------------- EMAIL ----------------
+    
     public void sendEmail(MessagePayload payload) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
@@ -50,7 +50,7 @@ public class SenderService {
         }
     }
 
-    // ---------------- WHATSAPP ----------------
+    
     public void sendWhatsapp(MessagePayload payload) {
         Twilio.init(accountSid, authToken);
 
@@ -61,3 +61,4 @@ public class SenderService {
         ).create();
     }
 }
+
