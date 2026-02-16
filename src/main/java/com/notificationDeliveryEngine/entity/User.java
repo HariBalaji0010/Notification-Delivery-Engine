@@ -8,10 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 import com.notificationDeliveryEngine.enums.ChannelType;
 
-/**
- * User entity representing application users.
- * Users are managed by Admin; no password is stored.
- */
+
 @Entity
 @Table(name = "users")
 @Data
@@ -34,4 +31,5 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private ChannelType userChannelType;
+
 }
